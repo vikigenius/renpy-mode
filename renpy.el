@@ -32,7 +32,7 @@
 (add-to-list 'same-window-buffer-names "*Renpy*")
 
 (defgroup renpy nil
-  "Python Language's flying circus support for Emacs."
+  "Renpy Language's flying circus support for Emacs."
   :group 'languages
   :version "24.3"
   :link '(emacs-commentary-link "renpy"))
@@ -41,17 +41,17 @@
 (defvar renpy-mode-map
   (let ((map (make-sparse-keymap)))
     ;; Indent specific
-    (define-key map "\177" 'python-indent-dedent-line-backspace)
-    (define-key map (kbd "<backtab>") 'python-indent-dedent-line)
-    (define-key map "\C-c<" 'python-indent-shift-left)
-    (define-key map "\C-c>" 'python-indent-shift-right))
-  "Keymap for `python-mode'.")
+    (define-key map "\177" 'renpy-indent-dedent-line-backspace)
+    (define-key map (kbd "<backtab>") 'renpy-indent-dedent-line)
+    (define-key map "\C-c<" 'renpy-indent-shift-left)
+    (define-key map "\C-c>" 'renpy-indent-shift-right))
+  "Keymap for `renpy-mode'.")
 
-;;; Python specialized rx
+;;; Renpy specialized rx
 
 (defmacro renpy-rx (&rest regexps)
   "RenPy mode specialized rx macro.
-This variant of `rx' supports common Python named REGEXPS."
+This variant of `rx' supports common Renpy named REGEXPS."
   `(rx-let ((block-start       (seq symbol-start
                                     (or "def" "class" "if" "elif" "else" "try"
                                         "except" "finally" "for" "while" "with"
@@ -1209,7 +1209,7 @@ class declarations.")
                   "yzoom"
                   "zoom"))
           symbol-end) (1 font-lock-builtin-face)))
-  "Font lock keywords to use in `python-mode' for level 2 decoration.")
+  "Font lock keywords to use in `renpy-mode' for level 2 decoration.")
 
 
 (eval-and-compile
@@ -1272,7 +1272,7 @@ avoid '==' being treated as an assignment."
 
 
 (defvar renpy-font-lock-keywords-maximum-decoration
-  `((),@renpy-font-lock-keywords-level-2
+  `(,@renpy-font-lock-keywords-level-2
     ;; Constants
     (,(rx symbol-start (or "False" "None" "NotImplemented" "True")
           symbol-end)
@@ -1327,8 +1327,8 @@ avoid '==' being treated as an assignment."
     ;;   [a] = 5
     ;;   [*a] = 5, 6
     ;; are handled separately below
-    (,(python-font-lock-assignment-matcher
-        (python-rx (? (or "[" "(") (* space))
+    (,(renpy-font-lock-assignment-matcher
+        (renpy-rx (? (or "[" "(") (* space))
                    grouped-assignment-target (* space) ?, (* space)
                    (* assignment-target (* space) ?, (* space))
                    (? assignment-target (* space))
@@ -1336,7 +1336,7 @@ avoid '==' being treated as an assignment."
                    (? (or ")" "]") (* space))
                    (group assignment-operator)))
      (1 font-lock-variable-name-face)
-     (,(python-rx grouped-assignment-target)
+     (,(renpy-rx grouped-assignment-target)
       (progn
         (goto-char (match-end 1))       ; go back after the first symbol
         (match-beginning 2))            ; limit the search until the assignment
@@ -1347,8 +1347,8 @@ avoid '==' being treated as an assignment."
     ;;   b: Tuple[Optional[int], Union[Sequence[str], str]] = (None, 'foo')
     ;;   c: Collection = {1, 2, 3}
     ;;   d: Mapping[int, str] = {1: 'bar', 2: 'baz'}
-    (,(python-font-lock-assignment-matcher
-        (python-rx grouped-assignment-target (* space)
+    (,(renpy-font-lock-assignment-matcher
+        (renpy-rx grouped-assignment-target (* space)
                    (? ?: (* space) (+ not-simple-operator) (* space))
                    assignment-operator))
      (1 font-lock-variable-name-face))
@@ -1356,16 +1356,16 @@ avoid '==' being treated as an assignment."
     ;;   (a) = 5
     ;;   [a] = 5
     ;;   [*a] = 5, 6
-    (,(python-font-lock-assignment-matcher
-       (python-rx (or "[" "(") (* space)
+    (,(renpy-font-lock-assignment-matcher
+       (renpy-rx (or "[" "(") (* space)
                   grouped-assignment-target (* space)
                   (or ")" "]") (* space)
                   assignment-operator))
      (1 font-lock-variable-name-face))
-  "Font lock keywords to use in `python-mode' for maximum decoration.
+  "Font lock keywords to use in `renpy-mode' for maximum decoration.
 
 This decoration level includes everything in
-`python-font-lock-keywords-level-2', as well as constants,
+`renpy-font-lock-keywords-level-2', as well as constants,
 decorators, exceptions, and assignments.")
 
 
