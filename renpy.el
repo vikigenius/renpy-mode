@@ -1255,7 +1255,13 @@ The type returned can be `comment', `string' or `paren'."
   (eql (syntax-class (syntax-after (point)))
        (syntax-class (string-to-syntax ")"))))
 
-
+(defun renpy-font-lock-syntactic-face-function (state)
+  "Return syntactic face given STATE."
+  (if (nth 3 state)
+      (if (renpy-info-docstring-p state)
+          font-lock-doc-face
+        font-lock-string-face)
+    font-lock-comment-face))
 
 (defun renpy-font-lock-assignment-matcher (regexp)
   "Font lock matcher for assignments based on REGEXP.
