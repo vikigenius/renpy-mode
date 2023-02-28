@@ -1310,7 +1310,7 @@ avoid '==' being treated as an assignment."
            ;; OS specific
            "VMSError" "WindowsError")
           symbol-end)
-     . font-lock-type-face))
+     . font-lock-type-face)
     ;; multiple assignment
     ;; (note that type hints are not allowed for multiple assignments)
     ;;   a, b, c = 1, 2, 3
@@ -1361,7 +1361,7 @@ avoid '==' being treated as an assignment."
                   grouped-assignment-target (* space)
                   (or ")" "]") (* space)
                   assignment-operator))
-     (1 font-lock-variable-name-face))
+     (1 font-lock-variable-name-face)))
   "Font lock keywords to use in `renpy-mode' for maximum decoration.
 
 This decoration level includes everything in
