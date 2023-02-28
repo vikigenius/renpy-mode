@@ -44,7 +44,7 @@
     (define-key map "\177" 'renpy-indent-dedent-line-backspace)
     (define-key map (kbd "<backtab>") 'renpy-indent-dedent-line)
     (define-key map "\C-c<" 'renpy-indent-shift-left)
-    (define-key map "\C-c>" 'renpy-indent-shift-right))
+    (define-key map "\C-c>" 'renpy-indent-shift-right) map)
   "Keymap for `renpy-mode'.")
 
 ;;; Renpy specialized rx
