@@ -1272,7 +1272,7 @@ avoid '==' being treated as an assignment."
 
 
 (defvar renpy-font-lock-keywords-maximum-decoration
-  `(,@renpy-font-lock-keywords-level-2
+  `((),@renpy-font-lock-keywords-level-2
     ;; Constants
     (,(rx symbol-start (or "False" "None" "NotImplemented" "True")
           symbol-end)
@@ -1281,7 +1281,7 @@ avoid '==' being treated as an assignment."
     (,(rx line-start (* (any " \t")) (group "@" (1+ (or word ?_))
                                             (0+ "." (1+ (or word ?_)))))
      (1 font-lock-type-face))
-    ;; Builting Exceptions
+    ;; Builtin Exceptions
    (,(rx symbol-start
           (or
            ;; Python 2 and 3:
